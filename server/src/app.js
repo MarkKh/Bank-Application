@@ -1,8 +1,8 @@
 const express = require("express");
-const mysql = require("mysql");
 const cors = require("cors")
-const bodyParser = require("body-parser");
 
+const mysql = require("mysql");
+const bodyParser = require("body-parser");
 const dbConfig = require("./config/db.config");
 
 const accountRouter = require("./routes/accountRouter")
