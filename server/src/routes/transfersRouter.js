@@ -3,8 +3,7 @@ const verifyToken = require("../middleware/verifyToken");
 function transfersRouter(app, connection) {
   // Get all transfers with sender and receiver names
   app.get("/transfers", verifyToken, (req, res) => {
-    const userId = req.userId; // Assume you extract user id from token
-
+    const userId = req.userId;
     connection.query(
       "SELECT t.*, s.name AS sender_name, r.name AS receiver_name FROM transfers t " +
         "JOIN accounts s ON t.sender_account_id = s.account_id " +
