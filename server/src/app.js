@@ -7,6 +7,7 @@ const dbConfig = require("./config/db.config");
 
 const accountRouter = require("./routes/accountRouter")
 const transactionRouter = require("./routes/transactionRouter")
+const transfersRouter = require("./routes/transfersRouter")
 
 const app = express();
 const port = 5001;
@@ -27,6 +28,7 @@ app.use(bodyParser.json());
 
 accountRouter(app, connection);
 transactionRouter(app, connection);
+transfersRouter(app, connection);
 
 // Start the server
 app.listen(port, () => {
