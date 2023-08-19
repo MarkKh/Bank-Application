@@ -5,7 +5,7 @@ function verifyToken(req, res, next) {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, secretKey.secret);
-    req.userId = decoded.id; // Store decoded user ID in the request
+    req.userId = decoded.id;
     next();
   } catch (err) {
     res
