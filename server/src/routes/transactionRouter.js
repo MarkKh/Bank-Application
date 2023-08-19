@@ -6,7 +6,6 @@ function transactionRouter(app, connection) {
     const userId = req.userId;
     const { amount } = req.body;
 
-    // ดึงข้อมูลผู้ใช้จากฐานข้อมูลโดยใช้ userId
     connection.query(
       "SELECT * FROM accounts WHERE account_id = ?",
       userId,
@@ -54,7 +53,6 @@ function transactionRouter(app, connection) {
     const userId = req.userId;
     const { amount } = req.body;
 
-    // ดึงข้อมูลผู้ใช้จากฐานข้อมูลโดยใช้ userId
     connection.query(
       "SELECT * FROM accounts WHERE account_id = ?",
       userId,
