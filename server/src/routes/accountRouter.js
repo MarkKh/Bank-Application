@@ -48,17 +48,6 @@ function accountRouter(app, connection) {
     );
   });
 
-  app.post("/auth", (req, res) => {
-    try {
-      const token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, secretKey.secret);
-      res.json({ message: "Authentication successful", decoded });
-    } catch (err) {
-      res
-        .status(401)
-        .json({ message: "Authentication failed", error: err.message });
-    }
-  });
   // Read all account records
   app.get("/accounts", (req, res) => {
     connection.query("SELECT * FROM accounts", (err, results) => {
@@ -70,7 +59,7 @@ function accountRouter(app, connection) {
   // Create a new account record
   app.post("/accounts", (req, res) => {
     const { name, address, username, password, balance } = req.body;
-    const account_id = Math.floor(Math.random() * 9000000000) + 1000000000; // Generate a random 10-digit number
+    const account_id = Math.floor(Math.random() * 9000000000) + 1000000000; // random account_id
   
     bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
       if (err) throw err;
