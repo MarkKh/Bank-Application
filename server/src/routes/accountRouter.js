@@ -67,31 +67,14 @@ function accountRouter(app, connection) {
     });
   });
 
-  // Read a single account record
-  app.get("/account/:account_id", (req, res) => {
-    const accountID = req.params.account_id;
-
-    connection.query(
-      "SELECT * FROM accounts WHERE account_id = ?",
-      accountID,
-      (err, result) => {
-        if (err) throw err;
-        if (result.length === 0) {
-          res.status(404).json({ message: "account not found" });
-        } else {
-          res.json(result[0]);
-        }
-      }
-    );
-  });
-
   // Create a new account record
   app.post("/accounts", (req, res) => {
-    const { account_id, name, address, username, password, balance } = req.body;
-
+    const { name, address, username, password, balance } = req.body;
+    const account_id = Math.floor(Math.random() * 9000000000) + 1000000000; // Generate a random 10-digit number
+  
     bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
       if (err) throw err;
-
+  
       const account = {
         account_id,
         name,
@@ -100,7 +83,7 @@ function accountRouter(app, connection) {
         password: hashedPassword,
         balance,
       };
-
+  
       connection.query("INSERT INTO accounts SET ?", account, (err, result) => {
         if (err) throw err;
         res.status(201).json({
@@ -109,7 +92,7 @@ function accountRouter(app, connection) {
       });
     });
   });
-
+  
   
 }
 
