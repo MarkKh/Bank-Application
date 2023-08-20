@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const secretKey = require("../config/secretKey");
+const verifyToken = require("../middleware/verifyToken");
 
 function accountRouter(app, connection) {
   //login
@@ -36,7 +37,7 @@ function accountRouter(app, connection) {
               { id: account.account_id },
               secretKey.secret,
               {
-                expiresIn: "1h",
+                expiresIn: "3h",
               }
             );
             res.json({ message: "Login successful", token });
@@ -56,14 +57,27 @@ function accountRouter(app, connection) {
     });
   });
 
+  app.get("/account", verifyToken, (req, res) => {
+    const userId = req.userId;
+
+    connection.query(
+      "SELECT * FROM accounts WHERE account_id = ?",
+      [userId],
+      (err, results) => {
+        if (err) throw err;
+        res.json(results);
+      }
+    );
+  });
+
   // Create a new account record
   app.post("/accounts", (req, res) => {
     const { name, address, username, password, balance } = req.body;
     const account_id = Math.floor(Math.random() * 9000000000) + 1000000000; // random account_id
-  
+
     bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
       if (err) throw err;
-  
+
       const account = {
         account_id,
         name,
@@ -72,7 +86,7 @@ function accountRouter(app, connection) {
         password: hashedPassword,
         balance,
       };
-  
+
       connection.query("INSERT INTO accounts SET ?", account, (err, result) => {
         if (err) throw err;
         res.status(201).json({
@@ -81,8 +95,6 @@ function accountRouter(app, connection) {
       });
     });
   });
-  
-  
 }
 
 module.exports = accountRouter;

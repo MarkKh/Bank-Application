@@ -1,6 +1,19 @@
 const verifyToken = require("../middleware/verifyToken");
 
 function transactionRouter(app, connection) {
+
+  app.get("/transactions", verifyToken, (req, res) => {
+    const userId = req.userId;
+
+    connection.query(
+      "SELECT * FROM transactions WHERE account_id = ?",
+      userId,
+      (err, result) => {
+        if (err) throw err;
+        res.json(result);
+      }
+    );
+  });
   // Deposit route with token verification
   app.post("/deposit", verifyToken, (req, res) => {
     const userId = req.userId;
