@@ -27,14 +27,15 @@ To run locally, follow these steps:
 9. Run the client: `npm run dev`
 
 ## Test Account Information
+
 During testing, you can use the following account information to log in:
 
-**User 1**:
-- Username: kirana@example.com
-- Password: 74uk
+| User      | Username            | Password  |
+|-----------|---------------------|-----------|
+| User 1    | kirana@example.com  | 74uk      |
+| User 2    | annto@example.com   | mut2032   |
 
-**User 2**:
-- Username: annto@example.com
-- Password: mut2032
+Please note that these are test accounts and passwords. For security reasons, it's recommended to change these passwords in a real-world scenario.
+
 
 
