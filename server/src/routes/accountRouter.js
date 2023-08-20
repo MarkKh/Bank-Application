@@ -70,30 +70,48 @@ function accountRouter(app, connection) {
     );
   });
 
-  // Create a new account record
   app.post("/accounts", (req, res) => {
-    const { name, address, username, password, balance } = req.body;
-    const account_id = Math.floor(Math.random() * 9000000000) + 1000000000; // random account_id
+    const { account_id, name, address, username, password, balance } = req.body;
 
-    bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
-      if (err) throw err;
-
-      const account = {
-        account_id,
-        name,
-        address,
-        username,
-        password: hashedPassword,
-        balance,
-      };
-
-      connection.query("INSERT INTO accounts SET ?", account, (err, result) => {
+    // Check if the provided account_id already exists
+    connection.query(
+      "SELECT COUNT(*) AS count FROM accounts WHERE account_id = ?",
+      [account_id],
+      (err, result) => {
         if (err) throw err;
-        res.status(201).json({
-          message: "Account created successfully",
+
+        if (result[0].count > 0) {
+          res.status(400).json({
+            message: "Account with the provided account_id already exists",
+          });
+          return;
+        }
+
+        bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+          if (err) throw err;
+
+          const account = {
+            account_id,
+            name,
+            address,
+            username,
+            password: hashedPassword,
+            balance,
+          };
+
+          connection.query(
+            "INSERT INTO accounts SET ?",
+            account,
+            (err, result) => {
+              if (err) throw err;
+              res.status(201).json({
+                message: "Account created successfully",
+              });
+            }
+          );
         });
-      });
-    });
+      }
+    );
   });
 }
 
