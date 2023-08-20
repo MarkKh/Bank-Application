@@ -30,12 +30,17 @@ To run locally, follow these steps:
 
 During testing, you can use the following account information to log in:
 
-| User      | Username            | Password  |
-|-----------|---------------------|-----------|
-| User 1    | kirana@example.com  | 74uk      |
-| User 2    | annto@example.com   | mut2032   |
+| User      | Username            | Password      |
+|-----------|---------------------|---------------|
+| User 1    | kirana@example.com  | 74uk          |
+| User 2    | annto@example.com   | mut2032       |
+| User 3    | sarah@example.com   | sara12        |
+| User 4    | johndoe@example.com | 5678          |
+| User 5    | alice@example.com   | mypassword123 |
+| User 6    | michael@example.com | strongpass123 |
+| User 7    | emily@example.com   | mysecurepass  |
 
-Please note that these are test accounts and passwords. For security reasons, it's recommended to change these passwords in a real-world scenario.
+User 1 and User 2, which have a balance of 0 baht, No transaction yet
 
 
 
