@@ -8,7 +8,7 @@ const stats = [
 ];
 
 function TransferMenu() {
-    const [activeMenu, setActiveMenu] = useState('Transfer Menu'); // Initial active menu
+    const [activeMenu, setActiveMenu] = useState('Transfer Menu');
 
     const toggleMenu = (menu) => {
         setActiveMenu(menu);
