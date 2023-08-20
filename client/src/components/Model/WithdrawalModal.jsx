@@ -1,13 +1,13 @@
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
-export default function DepositModal({ closeDepositModal }) {
+export default function DepositModal({closeDepositModal}) {
 
-    const handleDeposit = async () => {
+const handleDeposit = async () => {
         try {
-            const depositAmount = parseFloat(document.getElementById('depositAmount').value);
+            const withdrawalAmount = parseFloat(document.getElementById('withdrawalAmount').value);
 
-            if (isNaN(depositAmount) || depositAmount <= 0) {
+            if (isNaN(withdrawalAmount) || withdrawalAmount <= 0) {
                 console.error('Invalid deposit amount');
                 return;
             }
@@ -17,12 +17,12 @@ export default function DepositModal({ closeDepositModal }) {
                 Authorization: `Bearer ${token}`,
             };
 
-            axios.post('http://localhost:5001/deposit', { amount: depositAmount }, { headers })
+            axios.post('http://localhost:5001/withdrawal', { amount: withdrawalAmount }, { headers })
                 .then((response) => {
                     console.log(response.data.message);
                     Swal.fire({
                         icon: 'success',
-                        title: 'Deposit Successful',
+                        title: 'Withdrawal Successful',
                         text: response.data.message,
                         confirmButtonText: 'OK',
                     }).then((result) => {
@@ -57,12 +57,12 @@ export default function DepositModal({ closeDepositModal }) {
                 </button>
                 <form className="space-y-6" action="#">
                     <div>
-                        <label htmlFor="depositAmount" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
+                        <label htmlFor="withdrawalAmount" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
                         <input
                             type="number"
                             step="0.01"
                             min="0"
-                            id="depositAmount"
+                            id="withdrawalAmount"
                             className="w-full px-3 py-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Enter amount"
                             required
@@ -74,7 +74,7 @@ export default function DepositModal({ closeDepositModal }) {
                         className="w-full text inline-flex items-center justify-center px-4 py-2 text-base font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 dark:focus:ring-purple-900"
                         onClick={handleDeposit}
                     >
-                        Deposit Now
+                        Withdrawal Now
                     </button>
                 </form>
             </div>
