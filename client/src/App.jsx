@@ -19,10 +19,10 @@ function App() {
 
           <Route path="/index" element={<Index />} />
 
-          {/*Protected route with AuthChecker */}
-          <Route path="/profile" element={<AuthChecker>
-            <Profile />
-          </AuthChecker>} />
+          <Route path="/profile" element=
+            {<AuthChecker>
+              <Profile />
+            </AuthChecker>} />
         </Routes>
       </Suspense>
     </Router>
