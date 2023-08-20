@@ -23,8 +23,8 @@ connection.connect((err) => {
   console.log("Connected to the MySQL database");
 });
 
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 
 accountRouter(app, connection);
 transactionRouter(app, connection);

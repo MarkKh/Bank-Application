@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const secretKey = require("../config/secretKey");
+const verifyToken = require("../middleware/verifyToken");
 
 function accountRouter(app, connection) {
   //login
@@ -36,7 +37,7 @@ function accountRouter(app, connection) {
               { id: account.account_id },
               secretKey.secret,
               {
-                expiresIn: "1h",
+                expiresIn: "3h",
               }
             );
             res.json({ message: "Login successful", token });
@@ -56,33 +57,62 @@ function accountRouter(app, connection) {
     });
   });
 
-  // Create a new account record
-  app.post("/accounts", (req, res) => {
-    const { name, address, username, password, balance } = req.body;
-    const account_id = Math.floor(Math.random() * 9000000000) + 1000000000; // random account_id
-  
-    bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
-      if (err) throw err;
-  
-      const account = {
-        account_id,
-        name,
-        address,
-        username,
-        password: hashedPassword,
-        balance,
-      };
-  
-      connection.query("INSERT INTO accounts SET ?", account, (err, result) => {
+  app.get("/account", verifyToken, (req, res) => {
+    const userId = req.userId;
+
+    connection.query(
+      "SELECT * FROM accounts WHERE account_id = ?",
+      [userId],
+      (err, results) => {
         if (err) throw err;
-        res.status(201).json({
-          message: "Account created successfully",
-        });
-      });
-    });
+        res.json(results);
+      }
+    );
   });
-  
-  
+
+  app.post("/accounts", (req, res) => {
+    const { account_id, name, address, username, password, balance } = req.body;
+
+    // Check if the provided account_id already exists
+    connection.query(
+      "SELECT COUNT(*) AS count FROM accounts WHERE account_id = ?",
+      [account_id],
+      (err, result) => {
+        if (err) throw err;
+
+        if (result[0].count > 0) {
+          res.status(400).json({
+            message: "Account with the provided account_id already exists",
+          });
+          return;
+        }
+
+        bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+          if (err) throw err;
+
+          const account = {
+            account_id,
+            name,
+            address,
+            username,
+            password: hashedPassword,
+            balance,
+          };
+
+          connection.query(
+            "INSERT INTO accounts SET ?",
+            account,
+            (err, result) => {
+              if (err) throw err;
+              res.status(201).json({
+                message: "Account created successfully",
+              });
+            }
+          );
+        });
+      }
+    );
+  });
 }
 
 module.exports = accountRouter;
