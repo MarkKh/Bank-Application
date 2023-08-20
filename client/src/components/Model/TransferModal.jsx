@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import jwtDecode from 'jwt-decode';
 
 const TransferForm = ({ onClose }) => {
     const [TransferAmount, setTransferAmount] = useState('');
@@ -25,13 +26,24 @@ const TransferForm = ({ onClose }) => {
         try {
             const parsedAmount = parseFloat(TransferAmount);
             const parsedReceiver = parseInt(TransferReceiver);
+            const token = localStorage.getItem('token');
 
             if (isNaN(parsedAmount) || parsedAmount <= 0) {
                 console.error('Invalid Transfer amount');
                 return;
             }
+            const decodedToken = jwtDecode(token);
+            const senderAccountId = decodedToken.id;
 
-            const token = localStorage.getItem('token');
+            if (parsedReceiver === senderAccountId) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Transfer Error',
+                    text: 'Cannot transfer to yourself',
+                });
+                return;
+            }
+
             const headers = {
                 Authorization: `Bearer ${token}`,
             };
