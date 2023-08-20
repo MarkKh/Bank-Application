@@ -33,7 +33,7 @@ During testing, you can use the following account information to log in:
 | User      | Username            | Password      |
 |-----------|---------------------|---------------|
 | User 1    | kirana@example.com  | 74uk          |
-| User 2    | annto@example.com   | mut2032       |
+| User 2    | annto@example.com   | mut2023       |
 | User 3    | sarah@example.com   | sara12        |
 | User 4    | johndoe@example.com | 5678          |
 | User 5    | alice@example.com   | mypassword123 |
