@@ -11,7 +11,7 @@ import TransferForm from '../Model/TransferModal';
 
 const stats = [
     { id: 1, name: 'Deposit', value: 'Deposit', path: '', logo: inLogo },
-    { id: 2, name: 'Transfers', value: 'Transfers', path: '', logo: transferLogo }, // Add your logo here
+    { id: 2, name: 'Transfers', value: 'Transfers', path: '', logo: transferLogo },
     { id: 3, name: 'Withdrawal', value: 'Withdrawal', path: '', logo: outLogo },
 ];
 
