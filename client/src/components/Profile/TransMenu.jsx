@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import inLogo from '../../assets/in.png';
 import outLogo from '../../assets/out.png';
 import transferLogo from '../../assets/transfer.png';
-import DepositModal from '../Model/DepositModal';
+
+
+import DepositForm from '../Model/DepositModal';
 
 const stats = [
-    { id: 1, name: 'Deposit', value: 'Deposit', path: '/deposit', logo: inLogo },
-    { id: 2, name: 'Transfers', value: 'Transfers', path: '/transfers', logo: transferLogo }, // Add your logo here
-    { id: 3, name: 'Withdrawal', value: 'Withdrawal', path: '/withdrawal', logo: outLogo },
+    { id: 1, name: 'Deposit', value: 'Deposit', path: '', logo: inLogo },
+    { id: 2, name: 'Transfers', value: 'Transfers', path: '', logo: transferLogo }, // Add your logo here
+    { id: 3, name: 'Withdrawal', value: 'Withdrawal', path: '', logo: outLogo },
 ];
 
 export default function TransactionStats() {
@@ -23,7 +25,6 @@ export default function TransactionStats() {
     const closeDepositModal = () => {
         setIsDepositModalOpen(false);
     };
-
 
 
     return (
@@ -55,10 +56,30 @@ export default function TransactionStats() {
             </div>
 
             {isDepositModalOpen && (
-                <DepositModal
-                    closeDepositModal={closeDepositModal}
-                />
+                <div className="fixed top-0 left-0 right-0 z-50 w-full h-screen bg-opacity-50 bg-gray-900 flex items-center justify-center">
+                    <div className="bg-white w-full max-w-md mx-auto rounded-lg shadow-lg overflow-hidden">
+                        <button
+                            type="button"
+                            className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            onClick={closeDepositModal}
+                        >
+                            <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span className="sr-only">Close modal</span>
+                        </button>
+                        <div className="px-6 py-6 lg:px-8">
+                            <div className="flex flex-col items-center">
+                                <h1 className="order-first text-2xl font-semibold tracking-tight text-blue-800 sm:text-3xl mb-3">Deposit</h1>
+                                <img className="w-16 h-16 mb-3" src={inLogo} alt="Deposit Logo" />
+                            </div>
+
+                            <DepositForm onClose={closeDepositModal} />
+                        </div>
+                    </div>
+                </div>
             )}
+
         </div>
     );
 }
